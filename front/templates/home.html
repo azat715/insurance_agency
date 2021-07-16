@@ -1,0 +1,14 @@
+{% extends "./base_front.html" %}
+
+{% block content %}
+    <div x-data="products()" x-init="fetchProducts()" class="app">
+        <h4>Список продуктов</h4>
+            <ul class="list-group">
+                <template x-for="product in products" :key="product.id">
+                    <li class="list-group-item">
+                        <span x-text="product.name"></span>
+                    </li>
+                </template>
+            </ul>
+    </div>
+{% endblock %}
