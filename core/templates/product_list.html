@@ -2,11 +2,13 @@
 {% block content %}
 <h1>Products</h1>
 <ul>
-{% for product in object_list %}
-    <li>{{ product.name}}</li>
-{% empty %}
+    {% for product in object_list %}
+    <li>{{ product.name}}
+        <a class="btn btn-primary" href="{% url 'core:сustomer-list' product.slug %}" role="button">Клиенты </a>
+    </li>
+    {% empty %}
     <li>No products yet.</li>
-{% endfor %}
+    {% endfor %}
 </ul>
 
 {% endblock %}

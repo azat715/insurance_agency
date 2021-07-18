@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from datetime import timedelta
 from django.core.validators import MaxValueValidator
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -45,6 +46,11 @@ class Product(models.Model):
     seller = models.ForeignKey(
         Seller, on_delete=models.CASCADE, related_name="products"
     )
+
+    def buy_url(self):
+        return reverse(
+            "front:product_buy", kwargs={"slug": self.slug}, current_app="front"
+        )
 
     def save(self, *args, **kwargs):
         if not self.slug:

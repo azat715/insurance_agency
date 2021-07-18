@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 LABEL maintainer="azat715@gmail.com"
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1

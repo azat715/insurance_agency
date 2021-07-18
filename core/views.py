@@ -9,7 +9,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from core.models import Seller, Product
+from core.models import Customer, Seller, Product
 
 # Create your views here.
 def register_request(request):
@@ -78,3 +78,11 @@ class ProductUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_success_url(self):
         return reverse("core:product-list", current_app="core")
+
+
+class CustomerList(ListView, LoginRequiredMixin):
+    template_name = "customer_list.html"
+    model = Customer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(product__slug=self.kwargs["slug"])
