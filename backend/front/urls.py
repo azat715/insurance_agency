@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from front.views import main, products, CustomerCreateView
+from front.views import main, ProductsList, CustomerCreateView
 
 app_name = "front"
 
@@ -13,5 +13,5 @@ urlpatterns = [
         TemplateView.as_view(template_name="buy_succes.html"),
         name="buy_succes",
     ),
-    path("api/products/", products, name="product-list"),
+    path("api/products/", ProductsList.as_view(), name="product-list"),
 ]
