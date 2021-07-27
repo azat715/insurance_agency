@@ -1,12 +1,26 @@
 version: "3"
 
 services:
-  web:
-    backend: ./backend
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports: 
+      - "5672:5672"
+      - "15672:15672"
+
+  backend:
+    build: ./backend
     volumes:
       - data:/code/db
     ports:
       - "8001:8000"
+    depends_on:
+        - rabbitmq
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - rabbitmq
+
 
 volumes: 
   data:
