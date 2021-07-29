@@ -15,9 +15,24 @@ services:
       - "8001:8000"
     depends_on:
         - rabbitmq
+        - consumer
+    environment:
+      RABBITMQ_SERVER: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      RABBITMQ_QUEUE: send_email
 
   consumer:
     build: ./consumer
+
+    environment:
+      RABBITMQ_SERVER: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+      RABBITMQ_QUEUE: send_email
+      DEFAULT_FROM_EMAIL: hiTSJ5V7@protonmail.com
+      SENDGRID_API_KEY: 
+    
     depends_on:
       - rabbitmq
 

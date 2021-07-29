@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from os import environ
+
+env = environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-3#%4h(o9!l2fp1k6j525jjpg7g*y$tlt=h#zgyakbrd(-%j@_q"
+SECRET_KEY = env.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-ruy)bn)l3c#86hcfu1te&7b*@(22tjyq6+zcw3w)o$jn@*(#)x",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(env.get("DJANGO_DEBUG", True))
 
 ALLOWED_HOSTS = []
 
@@ -131,3 +137,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGOUT_REDIRECT_URL = "core:login"
 LOGIN_REDIRECT_URL = "core:account"
 LOGIN_URL = "seller/login"
+
+
+RABBITMQ = {
+    "SERVER": env.get("RABBITMQ_SERVER"),
+    "USER": env.get("RABBITMQ_USER"),
+    "PASS": env.get("RABBITMQ_PASS"),
+    "QUEUE": env.get("RABBITMQ_QUEUE"),
+}

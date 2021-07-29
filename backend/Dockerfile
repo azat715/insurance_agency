@@ -1,5 +1,6 @@
-FROM python:3.9
+FROM python:rc-alpine
 LABEL maintainer="azat715@gmail.com"
+RUN apk add --no-cache bash
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 RUN mkdir /code
