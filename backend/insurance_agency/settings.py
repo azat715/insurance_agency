@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "core",
-    "front",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -130,9 +130,16 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-LOGOUT_REDIRECT_URL = "core:login"
-LOGIN_REDIRECT_URL = "core:account"
-LOGIN_URL = "seller/login"
+# LOGOUT_REDIRECT_URL = "core:login"
+# LOGIN_REDIRECT_URL = "core:account"
+# LOGIN_URL = "seller/login"
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
