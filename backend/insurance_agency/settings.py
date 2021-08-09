@@ -145,3 +145,8 @@ RABBITMQ = {
     "PASS": env.get("RABBITMQ_PASS"),
     "QUEUE": env.get("RABBITMQ_QUEUE"),
 }
+
+REDIS = {
+    "HOST": env.get("REDIS_SERVER"),
+    "PORT": "6379",
+}

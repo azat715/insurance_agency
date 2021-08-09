@@ -7,6 +7,11 @@ services:
       - "5672:5672"
       - "15672:15672"
 
+  redis:
+    image: redis:6.2.5-alpine
+    ports: 
+      - 6379:6379
+
   backend:
     build: ./backend
     volumes:
@@ -21,6 +26,7 @@ services:
       RABBITMQ_USER: guest
       RABBITMQ_PASS: guest
       RABBITMQ_QUEUE: send_email
+      REDIS_SERVER: redis
 
   consumer:
     build: ./consumer
