@@ -7,6 +7,17 @@
 Реализована отправка писем через SENDGRID.
 
 
+Задание:
+Развернуть Redis/Mongo/Memcached. Необходимо добавить счетчик просмотров для страницы с информацией по каждой услуги (если нет отдельных страниц по каждой услуге - добавить). 
+Урл страницы услуги и счетчик просмотров хранить в noSQL базе. Отображать кол-во просмотров в админке.
+
+Реализован Redis.
+При посещении страницы product/<slug:slug>/detail/ в редис добавляется и инкрементируется счетчик
+На странице seller/account/products выводится количество просмотров 
+
+тесты redis client запускать REDIS_SERVER=localhost poetry run pytest 
+
+
 user: test_seller1, password: b2UE!;2!
 
 user: test_seller2, password: CDs~3mjQ
@@ -16,6 +27,7 @@ user: test_seller2, password: CDs~3mjQ
 #### front 
 * "" - список продуктов
 * "product/<slug:slug>/buy/" - форма покупки
+* product/<slug:slug>/detail/ - страница продукта
 * GET "api/products/" - json с продуктами
 #### core
 * "seller/login, register, logout" 

@@ -1,4 +1,4 @@
-import datetime
+from urllib.parse import urlparse
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import timedelta
@@ -6,6 +6,9 @@ from django.core.validators import MaxValueValidator
 from django.utils.text import slugify
 from django.urls import reverse
 
+from core.redis_client import RedisConfig, RedisClient
+
+redis_config = RedisConfig.get_config()
 
 # Create your models here.
 class Seller(User):
@@ -52,10 +55,23 @@ class Product(models.Model):
             "front:product_buy", kwargs={"slug": self.slug}, current_app="front"
         )
 
+    def detail_url(self):
+        return reverse(
+            "front:product_detail", kwargs={"slug": self.slug}, current_app="front"
+        )
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def count_views(self):
+        url = urlparse(self.detail_url())
+        path = url.path
+        print(path)
+        r = RedisClient(redis_config)
+        r.connect()
+        return r.get(path)
 
 
 class Customer(models.Model):

@@ -1,8 +1,11 @@
-from _pytest import config
+from os import environ
 import pytest
 import redis
 
 from core.redis_client import RedisConfig, RedisClient
+
+
+env = environ
 
 
 @pytest.fixture(name="config")
@@ -20,6 +23,8 @@ def test_client(config):
     r.connect()
     r.set("test:test", "test_value")
     assert r.get("test:test") == "test_value"
+    assert r.counter("test_count") == 1
+    assert r.counter("test_count") == 2
 
 
 def test_connect():
@@ -29,8 +34,13 @@ def test_connect():
     assert r.get("foo") == b"bar"
 
 
-def test_config():
+@pytest.fixture(name="redis_server")
+def fixture_redis_server():
+    env["REDIS_SERVER"] = "localhost"
+
+
+def test_config(redis_server):
     """Тестирование RedisClient"""
     config = RedisConfig.get_config()
-    assert config.host is None
+    assert config.host == "localhost"
     assert config.port == "6379"

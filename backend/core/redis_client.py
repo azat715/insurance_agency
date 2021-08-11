@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Union
 import redis
 from django.conf import settings
 
@@ -79,5 +80,22 @@ class RedisClient:
     def set(self, key, value) -> bool:
         return self.r.set(key, value)
 
-    def get(self, key) -> str:
-        return self.r.get(key).decode("utf-8")
+    def get(self, key) -> Union[str, int, None]:
+        res = self.r.get(key)
+        if res:
+            if isinstance(res, int):
+                return res
+            return res.decode("utf-8")
+        else:
+            return None
+
+    def is_exist(self, key) -> bool:
+        if self.r.exists(key) == 1:
+            return True
+        return False
+
+    def counter(self, key) -> int:
+        if self.is_exist(key):
+            return self.r.incr(key)
+        self.set(key, 1)
+        return 1
